@@ -1,4 +1,6 @@
 class Fluent::DataCounterOutput < Fluent::Output
+  require 'active_support/core_ext'
+
   Fluent::Plugin.register_output('datacounter', self)
 
   PATTERN_MAX_NUM = 20
@@ -225,6 +227,8 @@ class Fluent::DataCounterOutput < Fluent::Output
     c = [0] * @patterns.length
 
     es.each do |time,record|
+      record.stringify_keys!
+
       value = record[@count_key]
       next if value.nil?
 
